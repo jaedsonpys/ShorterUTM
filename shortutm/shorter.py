@@ -19,14 +19,14 @@ def _filter_empty_utm(utm_shorted: dict) -> dict:
 
 class Shorter:
     @staticmethod
-    def save(short_code: int, utm_shorted: dict):
+    def save(short_code: str, utm_shorted: dict):
         utm_shorted_query = urlencode(utm_shorted)
-        ShortUTMDatabase.add(str(short_code), utm_shorted_query)
+        ShortUTMDatabase.add(short_code, utm_shorted_query)
 
     @staticmethod
     def short(source: str = None, medium: str = None, campaign: str = None,
               term: Optional[str] = None, content: Optional[str] = None) -> tuple:
-        short_code = random.randint(10000, 99999)
+        short_code = str(random.randint(10000, 99999))
 
         utm_shorted = _filter_empty_utm({
             'utm_term': term,
