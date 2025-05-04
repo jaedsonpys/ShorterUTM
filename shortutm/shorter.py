@@ -1,5 +1,10 @@
 import random
 from typing import Optional
+from urllib.parse import urlencode
+
+import melkdb
+
+ShortUTMDatabase = melkdb.MelkDB('ShortUTMDatabase')
 
 
 def _filter_empty_utm(utm_shorted: dict) -> dict:
@@ -13,6 +18,11 @@ def _filter_empty_utm(utm_shorted: dict) -> dict:
 
 
 class Shorter:
+    @staticmethod
+    def save(short_code: int, utm_shorted: dict):
+        utm_shorted_query = urlencode(utm_shorted)
+        ShortUTMDatabase.add(str(short_code), utm_shorted_query)
+
     @staticmethod
     def short(source: str = None, medium: str = None, campaign: str = None,
               term: Optional[str] = None, content: Optional[str] = None) -> tuple:
