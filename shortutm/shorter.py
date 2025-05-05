@@ -27,12 +27,15 @@ class ShorterUTM:
 
     @staticmethod
     def restore(short_code: str) -> dict:
+        utm_shorted = dict()
         utm_shorted_query = ShortUTMDatabase.get(short_code)
 
         if utm_shorted_query is None:
             raise NotFoundShortedUTMError
 
-        utm_shorted = parse_qs(utm_shorted_query)
+        for param, value in parse_qs(utm_shorted_query).items():
+            utm_shorted[param] = value[0]
+
         return utm_shorted
 
     @classmethod
