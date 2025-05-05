@@ -19,7 +19,7 @@ def _filter_empty_utm(utm_shorted: dict) -> dict:
     return filtered_utm_shorted
 
 
-class Shorter:
+class ShorterUTM:
     @staticmethod
     def save(short_code: str, utm_shorted: dict) -> None:
         utm_shorted_query = urlencode(utm_shorted)
