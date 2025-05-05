@@ -21,9 +21,16 @@ def _filter_empty_utm(utm_shorted: dict) -> dict:
 
 class ShorterUTM:
     @staticmethod
-    def _save(short_code: str, utm_shorted: dict) -> None:
+    def _save(utm_shorted: dict) -> str:
+        while True:
+            short_code = str(random.randint(10000, 99999))
+            if ShortUTMDatabase.get(short_code) is None:
+                break
+
         utm_shorted_query = urlencode(utm_shorted)
         ShortUTMDatabase.add(short_code, utm_shorted_query)
+
+        return short_code
 
     @staticmethod
     def restore(short_code: str) -> dict:
@@ -41,8 +48,6 @@ class ShorterUTM:
     @classmethod
     def short(cls, source: str = None, medium: str = None, campaign: str = None,
               term: Optional[str] = None, content: Optional[str] = None) -> str:
-        short_code = str(random.randint(10000, 99999))
-
         utm_shorted = _filter_empty_utm({
             'utm_term': term,
             'utm_source': source,
@@ -51,5 +56,5 @@ class ShorterUTM:
             'utm_campaign': campaign
         })
 
-        cls._save(short_code, utm_shorted)
+        short_code = cls._save(utm_shorted)
         return short_code
