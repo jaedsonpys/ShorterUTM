@@ -3,6 +3,7 @@ from typing import Optional
 from urllib.parse import urlencode, parse_qs
 
 import melkdb
+import melkdb.exceptions
 
 from shortutm.exceptions import NotFoundShortedUTMError
 
@@ -44,6 +45,13 @@ class ShorterUTM:
             utm_shorted[param] = value[0]
 
         return utm_shorted
+
+    @staticmethod
+    def delete(short_code: str) -> None:
+        try:
+            ShortUTMDatabase.delete(short_code)
+        except melkdb.exceptions.ItemNotExistsError:
+            raise NotFoundShortedUTMError(f'UTM "{short_code}" not exists')
 
     @classmethod
     def short(cls, source: str = None, medium: str = None, campaign: str = None,
