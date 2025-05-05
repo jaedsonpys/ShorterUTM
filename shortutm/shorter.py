@@ -35,9 +35,9 @@ class ShorterUTM:
         utm_shorted = parse_qs(utm_shorted_query)
         return utm_shorted
 
-    @staticmethod
-    def short(source: str = None, medium: str = None, campaign: str = None,
-              term: Optional[str] = None, content: Optional[str] = None) -> tuple:
+    @classmethod
+    def short(cls, source: str = None, medium: str = None, campaign: str = None,
+              term: Optional[str] = None, content: Optional[str] = None) -> str:
         short_code = str(random.randint(10000, 99999))
 
         utm_shorted = _filter_empty_utm({
@@ -48,4 +48,5 @@ class ShorterUTM:
             'utm_campaign': campaign
         })
 
-        return short_code, utm_shorted
+        cls._save(short_code, utm_shorted)
+        return short_code
