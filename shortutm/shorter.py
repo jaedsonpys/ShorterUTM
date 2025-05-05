@@ -23,7 +23,7 @@ class ShorterUTM:
     @staticmethod
     def _save(utm_shorted: dict) -> str:
         while True:
-            short_code = str(random.randint(10000, 99999))
+            short_code = str(random.randint(100000, 999999))
             if ShortUTMDatabase.get(short_code) is None:
                 break
 
